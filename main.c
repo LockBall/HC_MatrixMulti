@@ -55,7 +55,7 @@ int main()
     char string[MEM_SIZE];
 
     FILE* fp;
-    char fileName[] = "MATRIXKernel.cl";  // used to have ./
+    char fileName[] = "mykernel.cl";  // used to have ./
     char* source_str;
     size_t source_size;
 
