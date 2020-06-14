@@ -13,7 +13,7 @@ using namespace aocl_utils;
 void cleanup();
 #endif
 
-#define MEM_SIZE (128)
+// #define MEM_SIZE (128)
 #define MAX_SOURCE_SIZE (0x100000)
 
 #define DEVICE_NAME_LEN 128 //MATRIX
@@ -47,12 +47,12 @@ int main()
     cl_program program = NULL;
     cl_kernel kernel = NULL;
 
-    // from hello
+    // from HELLO
     // cl_mem memobj = NULL; // likely unecessary
     cl_platform_id platform_id = NULL;
     cl_uint ret_num_platforms;
 
-    char string[MEM_SIZE];
+    // char string[MEM_SIZE];
 
     FILE* fp;
     char fileName[] = "mykernel.cl";  // used to have ./
@@ -88,7 +88,7 @@ int main()
         ret = clGetDeviceIDs(platforms[0], CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &ret_num_devices);
         printf("device name=  %s\n", getDeviceName(device_id).c_str());
     
-    #else
+    #else // for local machine use
         // Get Platform and Device Info   HELLO
         ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
         ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &device_id, &ret_num_devices);
@@ -110,15 +110,14 @@ int main()
     //system("pause");
     // end MATRIX
 
-    // MATRIX
-    #ifdef AOCL  // on FPGA we need to create kernel from binary
-        // Create Kernel Program from the binary
-        std::string binary_file = getBoardBinaryFile("mykernel", device_id);
-        printf("Using AOCX: %s\n", binary_file.c_str());
-        program = createProgramFromBinary(context, binary_file.c_str(), &device_id, 1);
-    #endif
-    //end MATRIX
-  
+// MATRIX
+#ifdef AOCL  /* on FPGA we need to create kernel from binary */
+    /* Create Kernel Program from the binary */
+    std::string binary_file = getBoardBinaryFile("mykernel", device_id);
+    printf("Using AOCX: %s\n", binary_file.c_str());
+    program = createProgramFromBinary(context, binary_file.c_str(), &device_id, 1);
+#else
+    // end MATRIX
 
     // Load the source code containing kernel MATRIX (APPLE)
     fp = fopen(fileName, "r");
@@ -145,9 +144,10 @@ int main()
     else {
         printf("Created program from source.\n\n");
     }
+#endif
 
     /*
-    // MATRIX // above on 113
+    // MATRIX // exists above on 113
     #ifdef AOCL  // on FPGA we need to create kernel from binary
         // Create Kernel Program from the binary
         std::string binary_file = getBoardBinaryFile("mykernel", device_id);
@@ -223,8 +223,8 @@ int main()
     clSetKernelArg(kernel, 6, sizeof(cl_mem), (void*)&bufferB); // end john
 
     // Create Kernel Program from the source
-    program = clCreateProgramWithSource(context, 1, (const char**)&source_str,
-        (const size_t*)&source_size, &ret);
+    // program = clCreateProgramWithSource(context, 1, (const char**)&source_str,
+    //    (const size_t*)&source_size, &ret);
 
     // Set OpenCL Kernel Parameters   HELLO
     // ret = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void*)&memobj);
@@ -265,8 +265,7 @@ int main()
     // Display Result
     //puts(string); // HELLO
 
-    // WINDOWS ONLY
-    // system("pause"); // last chance to look
+    system("pause"); // last chance to look
 
     // free(source_str); // HELLO
 
