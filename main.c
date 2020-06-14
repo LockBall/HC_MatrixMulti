@@ -110,6 +110,15 @@ int main()
     //system("pause");
     // end MATRIX
 
+    // MATRIX
+    #ifdef AOCL  // on FPGA we need to create kernel from binary
+        // Create Kernel Program from the binary
+        std::string binary_file = getBoardBinaryFile("mykernel", device_id);
+        printf("Using AOCX: %s\n", binary_file.c_str());
+        program = createProgramFromBinary(context, binary_file.c_str(), &device_id, 1);
+    #endif
+    //end MATRIX
+  
 
     // Load the source code containing kernel MATRIX (APPLE)
     fp = fopen(fileName, "r");
@@ -137,8 +146,8 @@ int main()
         printf("Created program from source.\n\n");
     }
 
-
-    // MATRIX
+    /*
+    // MATRIX // above on 113
     #ifdef AOCL  // on FPGA we need to create kernel from binary
         // Create Kernel Program from the binary
         std::string binary_file = getBoardBinaryFile("mykernel", device_id);
@@ -146,6 +155,7 @@ int main()
         program = createProgramFromBinary(context, binary_file.c_str(), &device_id, 1);
     #endif
     //end MATRIX
+    */
 
     // Build Kernel Program    in hello & MATRIX
     printf("build kernel program.\n");
