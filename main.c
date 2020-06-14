@@ -255,7 +255,8 @@ int main()
     // Display Result
     //puts(string); // HELLO
 
-    system("pause"); // last chance to look
+    // WINDOWS ONLY
+    // system("pause"); // last chance to look
 
     // free(source_str); // HELLO
 
