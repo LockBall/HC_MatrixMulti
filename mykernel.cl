@@ -20,5 +20,5 @@ __kernel void simpleMultiply(
         sum += inputA[row*widthA + i] * inputB[i*widthB + col];
     }
 
-    outputC[row*widthB + col] = sum;
+    outputC[row*widthB + col] = sum; // store the sum to the correct location in the outputC array
 }
